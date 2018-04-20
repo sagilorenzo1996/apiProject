@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::get('/{id}', function ($id) {
     $project=App\Project::all();
     $task=DB::table('tasks')
-    ->leftJoin('projects', 'projects.id', '=', 'tasks.id')
+    ->leftJoin('projects', 'projects.id', '=', 'tasks.projectId')
     ->select('tasks.*', 'projects.name')
     ->where('developerId',$id)
     ->get();

@@ -77,7 +77,7 @@
                         </script>
                 </div>
                 <div class="col-sm-6">
-                 <h4 style="text-align: center" class="text-primary"> Add Task</h4>
+                 <h4 style="text-align: center" class="text-success"> Update Task</h4>
                     <hr/>
                         <form id="updateTaskForm">
                             <div class="form-group col-sm-6">
@@ -104,30 +104,34 @@
                                 <label for="updatedescription">description</label>
                                 <textarea class="form-control" id="updatedescription" name="description" rows="3" required></textarea>
                             </div>
+                            <input type="hidden" value="" name="id" id="updatetaskId"/>
                             <div class="form-group col-sm-12">
-                                <button type="submit" class="btn btn-primary col-sm-4">Add Task</button>
-                                <span class="col-sm-4"></span>
-                                <span id="taskaddnotice" class="badge badge-danger col-sm-4"></span>
+                                <button type="submit" class="btn btn-success col-sm-4">Update Task</button>
+                                <span class="col-sm-4"></span>                                
+                                <span id="updatetasknotice" class="badge badge-danger col-sm-4"></span>
                             </div>
                         </form>
                         <script>
                             $(document).ready(function(){
                                 $('#updateTaskForm').on('submit', function(e){
-                                    $("#taskaddnotice").html("updating task");
+                                    $("#updatetasknotice").html("updating task");
                                     e.preventDefault();
-                                    $.post('http://localhost:8000/api/tasks',
-                                        {
-                                            projectId: $('#projectId').val(),
-                                            hours: $('#hours').val(),
-                                            overtime: $('#overtime').val(),
-                                            description: $('#description').val(), 
-                                            date:$('#Date').val(),                                           
-                                        },function(data,status){
-                                            console.log('Data: ' + data.hours + 'Status: ' + status);
-                                            document.getElementById('addTaskForm').reset();
-                                            $("#taskaddnotice").html("Task added successfully");
-                                            });
-                                            });
+                                    $.ajax({
+                                         url:'http://localhost:8000/api/tasks/'+$('#updatetaskId').val(),
+                                         type: 'PUT',
+                                         data:{
+                                            projectId: $('#updateprojectId').val(),
+                                            overtime:$('#updateovertime').val(),
+                                            description:$('#updatedescription').val(),
+                                            hours:$('#updatehours').val(),
+                                            date:$('#updateDate').val(),
+                                         },
+                                         success:function(data,status){
+                                             console.log('Data: ' + data + 'Status: ' + status);
+                                             $("#updatetasknotice").html("task updated successfully");
+                                             }
+                                             });
+                                    });
                             });
                         </script>
                 </div> 
@@ -163,7 +167,16 @@
                                 <td class="col-sm-1">{{$tasks->hours}}</td>
                                 <td class="col-sm-1">{{$tasks->overtime}}</td>
                                 <td class="col-sm-1">
-                                    <button type="button" class="btn btn-info btn-sm">
+                                    <button type="button" class="btn btn-success btn-sm"
+                                    onclick="
+                                     $('#updateovertime').val({{$tasks->overtime}});
+                                     $('#updatedescription').val('{{$tasks->description}}');
+                                     $('#updatehours').val({{$tasks->hours}});
+                                     $('#updateDate').val('{{$tasks->date}}');
+                                     $('#updateprojectId').val({{$tasks->projectId}});
+                                     $('#updatetaskId').val({{$tasks->id}});
+                                    "
+                                    >
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     </button>
                                 </td>

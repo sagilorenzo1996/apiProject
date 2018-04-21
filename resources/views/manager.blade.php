@@ -27,11 +27,31 @@
                     <form id="getDeveloperDetailsForm">
                         <div class="form-group col-sm-12">
                             <label for="developerId">Enter Developer Id</label>
-                            <input class="form-control" type="text" name="id" id="developerId" required />
+                            <input class="form-control" type="number" name="id" id="developerId" required autocomplete="off" />
                         </div>  
                         <br>
-                        <span id="getDeveloperDetails" class="badge badge-danger col-sm-4"></span>
+                        <span id="getDeveloperDetails" class="badge badge-danger col-sm-6"></span>
                     </form>
+                    <div class="form-group col-sm-9">
+                        <label for="developerUsername">Username</label>
+                        <input class="form-control" type="text" id="developerUsername" disabled/>
+                    </div>  
+                    <div class="form-group col-sm-3">
+                        <label for="devId">ID</label>
+                        <input class="form-control" type="text" id="devId" disabled/>
+                    </div>  
+                    <div class="form-group col-sm-12">
+                        <label for="developerFname">Developer First Name</label>
+                        <input class="form-control" type="text" id="developerFname" disabled/>
+                    </div>  
+                    <div class="form-group col-sm-12">
+                        <label for="developerLname">Developer Last Name</label>
+                        <input class="form-control" type="text" id="developerLname" disabled/>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="developerRole">Role</label>
+                        <input class="form-control" type="text" id="developerRole" disabled/>
+                    </div>
                 </div>
             <script>
             $(document).ready(function(){
@@ -42,8 +62,18 @@
                                          url:'http://localhost:8000/api/developers/'+$('#developerId').val(),
                                          type: 'GET',
                                          success:function(data,status){
+                                             if(status!='Not Found'){
                                              console.log('Data: ' + data + 'Status: ' + status);
+                                             $("#developerUsername").val(data.username);
+                                             $("#devId").val(data.id);
+                                             $("#developerFname").val(data.firstName);    
+                                             $("#developerLname").val(data.lastName);     
+                                             $("#developerRole").val(data.role);     
                                              $("#getDeveloperDetails").html("Developer Found");
+                                             }
+                                             else{
+                                                 $("#getDeveloperDetails").html("Developer Not Found");
+                                             }                                                                        
                                              }
                                              });
                                             });

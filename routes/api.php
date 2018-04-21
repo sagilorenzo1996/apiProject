@@ -27,6 +27,6 @@ Route::put('tasks/{task}','TasksController@update');
  
 Route::delete('tasks/{task}','TasksController@delete');
 
-Route::post('manager','ManagersConroller@login');
+Route::post('manager','ManagersController@login');
 
 Route::post('developer','DevelopersController@login');

@@ -17,11 +17,17 @@ Route::get('/', function () {
 });
 
 Route::get('/{id}', function ($id) {
+    $developer=App\Developer::find($id);
     $project=App\Project::all();
     $task=DB::table('tasks')
     ->leftJoin('projects', 'projects.id', '=', 'tasks.projectId')
     ->select('tasks.*', 'projects.name')
     ->where('developerId',$id)
     ->get();
-    return view('developer',['developerId'=>$id,'project'=>$project,'task'=>$task]);
+    return view('developer',['developerId'=>$id,'project'=>$project,'task'=>$task,'developer'=>$developer]);
+});
+
+Route::get('/manager/{id}', function ($id) {
+    $manager=App\Manager::find($id);
+    return view('manager',['manager'=>$manager]);
 });

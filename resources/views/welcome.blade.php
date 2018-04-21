@@ -58,16 +58,39 @@
 
                 <div class="col-sm-6">
                     <h4>Manager</h4>
-                    <form method="POST" action="http://localhost:8000/api/manager">
-                        <input type="text" name="id" placeholder="Developer ID" class="form-control"/>
+                    <form id="managerLoginForm">
+                        <input type="text" name="id" placeholder="Manager ID" id="managerId" class="form-control"/>
                         <br/>
-                        <input type="password" name="password" placeholder="Password" class="form-control"/>
+                        <input type="password" name="password" placeholder="Password" id="managerPassword" class="form-control"/>
                         <br/>
                         <button type="submit" class="btn btn-primary">Login</button>
+                        <br/>
+                        <span id="managerLoginError" class="badge badge-danger"></span>
                     </form>
                 </div>
             </div> 
         </div>
+
+        <script>
+        $(document).ready(function(){
+            $('#managerLoginForm').on('submit', function(e){
+                e.preventDefault();
+                 $.post('http://localhost:8000/api/manager',
+                    {
+                        id: $('#managerId').val(),
+                        password: $('#managerPassword').val()
+                    },function(data,status){
+                        console.log('Data: ' + data + 'Status: ' + status);
+                        var managerid=$('#managerId').val();
+                        var url='/manager/'+managerid;
+                        if(data=="fail")
+                            $("#managerLoginError").html("Incorrect credentials");
+                        else
+                            window.location.href=url;
+                        });
+                        });
+        });
+    </script>
  
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>

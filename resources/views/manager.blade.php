@@ -20,8 +20,24 @@
         </h2>
         <div class="container-fluid">
                 <div class="row">
-                <div class="col-sm-8 form-group">
-                  jhabvgsdj
+                <div class="col-sm-8">
+                    <span id="testfield"></span>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Developer</th>
+                            <th>Hours</th>
+                            <th>Overtime</th>
+                            <th>Contribution</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-sm-1">hjhjhj</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="col-sm-4">
                     <form id="getDeveloperDetailsForm">
@@ -55,6 +71,18 @@
                 </div>
             <script>
             $(document).ready(function(){
+                                $.ajax({
+                                         url:'http://localhost:8000/api/projects',
+                                         type: 'GET',
+                                         data:{
+                                            id:{{$manager->id}}
+                                         },
+                                         success:function(data,status){
+                                            console.log('Data: ' + data[0].name + 'Status: ' + status);  
+                                                                    
+                                             }
+                                             });
+
                                 $('#developerId').on('input', function(e){
                                     $("#getDeveloperDetails").html("Fetching Data");
                                     e.preventDefault();
